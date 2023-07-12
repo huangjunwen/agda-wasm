@@ -9,7 +9,7 @@ RUN apt-get update
 # Install native version
 # https://www.haskell.org/ghcup/install/#manual-installation
 RUN apt-get install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 && \
-  curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org -o ghcup.sh | \
+  curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | \
   BOOTSTRAP_HASKELL_NONINTERACTIVE=1 \
   GHCUP_INSTALL_BASE_PREFIX=/usr/local/ghc \
   BOOTSTRAP_HASKELL_GHC_VERSION=9.6.2 \
