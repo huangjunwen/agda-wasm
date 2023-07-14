@@ -19,7 +19,7 @@ RUN apt-get install -y build-essential curl jq unzip && \
   curl -s -L https://gitlab.haskell.org/ghc/ghc-wasm-meta/-/archive/master/ghc-wasm-meta-master.tar.gz | tar xvfz - -C /root/ && \
   cd /root/ghc-wasm-meta-master && PREFIX=/usr/local/ghc-wasm FLAVOUR=9.6 ./setup.sh && \
   find /usr/local/ghc-wasm -name wasm32-wasi-unlit -exec bash -c "ln -s {} \$(dirname {})/unlit" \; && \
-  sed -i '/bash/a [[ "$@" == *"setup/setup"* ]] && /usr/local/ghc/.ghcup/bin/ghc ${1+"$@"}' /usr/local/ghc-wasm/wasm32-wasi-ghc/bin/wasm32-wasi-ghc
+  sed -i '/bash/a [[ "$@" == *"setup/setup"* ]] && exec /usr/local/ghc/.ghcup/bin/ghc ${1+"$@"}' /usr/local/ghc-wasm/wasm32-wasi-ghc/bin/wasm32-wasi-ghc
 
 # Install native version ghc with the same version
 #   https://www.haskell.org/ghcup/install/#manual-installation
@@ -35,4 +35,4 @@ RUN apt-get install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp
 RUN source /usr/local/ghc/.ghcup/env && cabal update && cabal install alex-3.4.0.0 happy-1.20.1.1
 
 # RUN source /usr/local/ghc-wasm-meta/env && \
-#   wasm32-wasi-cabal install Agda --constraint='zlib +bundled-c-zlib'
+#   wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'
