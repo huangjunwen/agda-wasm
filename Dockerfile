@@ -4,7 +4,7 @@ SHELL ["/bin/bash", "-c"]
 
 WORKDIR /root
 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update
 
 # Install wasm version
 #   https://gitlab.haskell.org/ghc/ghc-wasm-meta#getting-started-without-nix
@@ -41,8 +41,13 @@ RUN apt-get install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp
 # Will be used to generate lexer and parser for agda. Location: $HOME/.local/bin
 RUN source /usr/local/ghc/.ghcup/env && cabal update && cabal install alex-3.4.0.0 happy-1.20.1.1
 
+# COPY patches ./patches
+
 ## Get src and apply patch then build
 ##   https://www.reddit.com/r/haskell/comments/1355jm7/help_compiling_to_wasm/
-# RUN git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && \
+# RUN apt-get install -y git && \
+#   git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && cd /root/agda && \
+#   git apply /root/patches/v2.6.3.patch && \
+#   sed -i "s/<<GITHASH>>/$(git rev-parse HEAD)/" src/full/Agda/VersionCommit.hs && \
 #   export PATH=/root/.local/bin:$PATH && source /usr/local/ghc-wasm/env && \
-#   cd /root/agda && wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'
+#   wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'

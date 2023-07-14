@@ -1,0 +1,50 @@
+diff --git a/Agda.cabal b/Agda.cabal
+index 306f81f..4032cbf 100644
+--- a/Agda.cabal
++++ b/Agda.cabal
+@@ -823,8 +823,8 @@ executable agda
+   -- The threaded RTS by default starts a major GC after a program has
+   -- been idle for 0.3 s. This feature turned out to be annoying, so
+   -- the idle GC is now by default turned off (-I0).
+-  ghc-options: -threaded -rtsopts
+-               "-with-rtsopts=-M3.5G -I0"
++  -- ghc-options: -threaded -rtsopts
++  --              "-with-rtsopts=-M3.5G -I0"
+ 
+ executable agda-mode
+   hs-source-dirs:   src/agda-mode
+diff --git a/src/full/Agda/VersionCommit.hs b/src/full/Agda/VersionCommit.hs
+index 2753f8e..6039aed 100644
+--- a/src/full/Agda/VersionCommit.hs
++++ b/src/full/Agda/VersionCommit.hs
+@@ -1,10 +1,3 @@
+-{-# LANGUAGE CPP             #-}
+-{-# LANGUAGE TemplateHaskell #-}
+-
+-#if __GLASGOW_HASKELL__ >= 900
+-{-# OPTIONS_GHC -Wno-overlapping-patterns #-}
+-#endif
+-
+ module Agda.VersionCommit where
+ 
+ import Development.GitRev
+@@ -20,11 +13,15 @@ commitInfo
+   | hash == "UNKNOWN" = Nothing
+   | otherwise         = Just $ abbrev hash ++ dirty
+   where
+-    hash = $(gitHash)
++    -- hash = $(gitHash)
++
++    -- -- Check if any tracked files have uncommitted changes
++    -- dirty | $(gitDirtyTracked) = "-dirty"
++    --       | otherwise          = ""
++
++    hash = "<<GITHASH>>"
+ 
+-    -- Check if any tracked files have uncommitted changes
+-    dirty | $(gitDirtyTracked) = "-dirty"
+-          | otherwise          = ""
++    dirty = ""
+ 
+     -- Abbreviate a commit hash while keeping it unambiguous
+     abbrev = take 7
