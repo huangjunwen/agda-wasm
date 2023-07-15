@@ -41,7 +41,7 @@ RUN apt-get install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp
 # Will be used to generate lexer and parser for agda. Location: $HOME/.local/bin
 RUN source /usr/local/ghc/.ghcup/env && cabal update && cabal install alex-3.4.0.0 happy-1.20.1.1
 
-# COPY patches ./patches
+# COPY patches /root/patches
 
 ## Get src and apply patch then build
 ##   https://www.reddit.com/r/haskell/comments/1355jm7/help_compiling_to_wasm/
