@@ -49,5 +49,6 @@ RUN source /usr/local/ghc/.ghcup/env && cabal update && cabal install alex-3.4.0
 #   git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && cd /root/agda && \
 #   git apply /root/patches/v2.6.3.patch && \
 #   sed -i "s/<<GITHASH>>/$(git rev-parse HEAD)/" src/full/Agda/VersionCommit.hs && \
+#   echo "void tzset() {}" > /root/agda/src/fix-tzset-missing/tzset.c && \
 #   export PATH=/root/.local/bin:$PATH && source /usr/local/ghc-wasm/env && \
 #   wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'

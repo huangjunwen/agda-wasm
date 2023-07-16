@@ -1,8 +1,17 @@
 diff --git a/Agda.cabal b/Agda.cabal
-index 306f81f..4032cbf 100644
+index 306f81f..7f9b0f9 100644
 --- a/Agda.cabal
 +++ b/Agda.cabal
-@@ -823,8 +823,8 @@ executable agda
+@@ -180,6 +180,8 @@ custom-setup
+ library
+   hs-source-dirs:   src/full
+ 
++  c-sources: src/fix-tzset-missing/tzset.c
++
+   if flag(cpphs)
+     -- We don't write an upper bound for cpphs because the
+     -- `build-tools` field can not be modified in Hackage.
+@@ -823,8 +825,8 @@ executable agda
    -- The threaded RTS by default starts a major GC after a program has
    -- been idle for 0.3 s. This feature turned out to be annoying, so
    -- the idle GC is now by default turned off (-I0).
@@ -14,7 +23,7 @@ index 306f81f..4032cbf 100644
  executable agda-mode
    hs-source-dirs:   src/agda-mode
 diff --git a/src/full/Agda/VersionCommit.hs b/src/full/Agda/VersionCommit.hs
-index 2753f8e..6039aed 100644
+index 2753f8e..dfdb560 100644
 --- a/src/full/Agda/VersionCommit.hs
 +++ b/src/full/Agda/VersionCommit.hs
 @@ -1,10 +1,3 @@
