@@ -45,6 +45,14 @@ RUN source /usr/local/ghc/.ghcup/env && cabal update && cabal install alex-3.4.0
 
 ## Get src and apply patch then build
 ##   https://www.reddit.com/r/haskell/comments/1355jm7/help_compiling_to_wasm/
+## 
+## NOTE: Currently wasm backend does not support threaded version, so no -threaded
+##
+## NOTE: Currently wasm backend does not support TemplateHaskell, so using sed to replace the git hash
+##
+## NOTE: tzset not found when linking with libHStime-1.12.2, maybe fixed in
+## https://github.com/haskell/time/commit/2b3026fff50417bb57d909b2fa87d298c091cc1c
+##
 # RUN apt-get install -y git && \
 #   git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && cd /root/agda && \
 #   git apply /root/patches/v2.6.3.patch && \
