@@ -49,14 +49,12 @@ COPY patches /root/patches
 # 
 # NOTE: Currently wasm backend does not support threaded version, so no -threaded
 #
-# NOTE: Currently wasm backend does not support TemplateHaskell, so using sed to replace the git hash
+# NOTE: Currently wasm backend does not support TemplateHaskell, so hardcode git hash
 #
 # NOTE: tzset not found when linking with libHStime-1.12.2, maybe fixed in
 # https://github.com/haskell/time/commit/2b3026fff50417bb57d909b2fa87d298c091cc1c
  RUN apt-get install -y git && \
-   git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && cd /root/agda && \
-   git apply /root/patches/v2.6.3.patch && \
-   sed -i "s/<<GITHASH>>/$(git rev-parse HEAD)/" src/full/Agda/VersionCommit.hs && \
-   mkdir -p /root/agda/src/fix-tzset-missing && echo "int tzset() { return 0; }" > /root/agda/src/fix-tzset-missing/tzset.c && \
+   git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && \
+   cp -a /root/patches/v2.6.3/. /root/agda && \
    export PATH=/root/.local/bin:$PATH && source /usr/local/ghc-wasm/env && \
-   wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'
+   cd /root/agda && wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'
