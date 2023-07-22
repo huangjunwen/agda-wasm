@@ -53,11 +53,10 @@ COPY patches /root/patches
 #
 # NOTE: tzset not found when linking with libHStime-1.12.2, maybe fixed in
 # https://github.com/haskell/time/commit/2b3026fff50417bb57d909b2fa87d298c091cc1c
-#
  RUN apt-get install -y git && \
    git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && cd /root/agda && \
    git apply /root/patches/v2.6.3.patch && \
    sed -i "s/<<GITHASH>>/$(git rev-parse HEAD)/" src/full/Agda/VersionCommit.hs && \
-   mkdir -p /root/agda/src/fix-tzset-missing && echo "void tzset() {}" > /root/agda/src/fix-tzset-missing/tzset.c && \
+   mkdir -p /root/agda/src/fix-tzset-missing && echo "int tzset() { return 0; }" > /root/agda/src/fix-tzset-missing/tzset.c && \
    export PATH=/root/.local/bin:$PATH && source /usr/local/ghc-wasm/env && \
    wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'
