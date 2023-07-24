@@ -825,6 +825,8 @@ executable agda
   -- The threaded RTS by default starts a major GC after a program has
   -- been idle for 0.3 s. This feature turned out to be annoying, so
   -- the idle GC is now by default turned off (-I0).
+
+  -- (agda-wasm) Not use threaded RTS
   ghc-options: -rtsopts
                "-with-rtsopts=-M3.5G -I0"
 

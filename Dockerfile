@@ -41,20 +41,10 @@ RUN apt-get install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp
 # Will be used to generate lexer and parser for agda. Location: $HOME/.local/bin
 RUN source /usr/local/ghc/.ghcup/env && cabal update && cabal install alex-3.4.0.0 happy-1.20.1.1
 
-# Copy patches
-COPY patches /root/patches
-
 # Get src and apply patch then build
-#   https://www.reddit.com/r/haskell/comments/1355jm7/help_compiling_to_wasm/
-# 
-# NOTE: Currently wasm backend does not support threaded version, so no -threaded
-#
-# NOTE: Currently wasm backend does not support TemplateHaskell, so hardcode git hash
-#
-# NOTE: tzset not found when linking with libHStime-1.12.2, maybe fixed in
-# https://github.com/haskell/time/commit/2b3026fff50417bb57d909b2fa87d298c091cc1c
- RUN apt-get install -y git && \
-   git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && \
-   cp -a /root/patches/v2.6.3/. /root/agda && \
-   export PATH=/root/.local/bin:$PATH && source /usr/local/ghc-wasm/env && \
-   cd /root/agda && wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'
+COPY patches /root/patches
+RUN apt-get install -y git && \
+  git clone --depth 1 --branch v2.6.3 https://github.com/agda/agda.git && \
+  cp -a /root/patches/v2.6.3/. /root/agda && \
+  export PATH=/root/.local/bin:$PATH && source /usr/local/ghc-wasm/env && \
+  cd /root/agda && wasm32-wasi-cabal build --allow-new='base,Cabal' --constraint='zlib +bundled-c-zlib'
