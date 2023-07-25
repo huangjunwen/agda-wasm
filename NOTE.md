@@ -8,12 +8,29 @@ Add a fake project root to avoid
 $ touch /xyz.agda-lib
 ```
 
+Copy lib to avoid
+
+> The lib directory /usr/local/ghc-wasm/.cabal/share/wasm32-wasi-ghc-9.6.2.20230523/Agda-2.6.3/lib does not exist
+
+```
+$ mkdir -p /usr/local/ghc-wasm/.cabal/share/wasm32-wasi-ghc-9.6.2.20230523/Agda-2.6.3
+$ cp -r /root/agda/src/data/lib/ /usr/local/ghc-wasm/.cabal/share/wasm32-wasi-ghc-9.6.2.20230523/Agda-2.6.3
+```
+
 Example cmd:
 
 ```
 wasmtime run --dir=/ --coredump-on-trap agda.core ./agda.wasm --  --interaction-json
 
 IOTCM "/tmp/test.agda" NonInteractive Indirect (Cmd_load "/tmp/test.agda" [])
+```
+
+```
+module test where
+
+data N : Set where
+  O : N
+  S : N ->
 ```
 
 
