@@ -20,7 +20,7 @@ $ cp -r /root/agda/src/data/lib/ /usr/local/ghc-wasm/.cabal/share/wasm32-wasi-gh
 Example cmd:
 
 ```
-wasmtime run --dir=/ --coredump-on-trap agda.core ./agda.wasm --  --interaction-json
+wasmtime run --dir=/ ./agda.wasm --  --interaction-json
 
 IOTCM "/tmp/test.agda" NonInteractive Indirect (Cmd_load "/tmp/test.agda" [])
 ```
@@ -30,8 +30,10 @@ module test where
 
 data N : Set where
   O : N
-  S : N ->
+  S : N -> N
 ```
+
+https://github.com/klapaucius/vector-hashtables/blob/v.0.1.1.3/vector-hashtables.cabal#L30
 
 
 #### How to build static link native executable
