@@ -1,0 +1,29 @@
+diff --git a/src/full/Agda/VersionCommit.hs b/src/full/Agda/VersionCommit.hs
+index 2753f8e..a783826 100644
+--- a/src/full/Agda/VersionCommit.hs
++++ b/src/full/Agda/VersionCommit.hs
+@@ -1,10 +1,3 @@
+-{-# LANGUAGE CPP             #-}
+-{-# LANGUAGE TemplateHaskell #-}
+-
+-#if __GLASGOW_HASKELL__ >= 900
+-{-# OPTIONS_GHC -Wno-overlapping-patterns #-}
+-#endif
+-
+ module Agda.VersionCommit where
+ 
+ import Development.GitRev
+@@ -20,11 +13,10 @@ commitInfo
+   | hash == "UNKNOWN" = Nothing
+   | otherwise         = Just $ abbrev hash ++ dirty
+   where
+-    hash = $(gitHash)
++    hash = ""
+ 
+     -- Check if any tracked files have uncommitted changes
+-    dirty | $(gitDirtyTracked) = "-dirty"
+-          | otherwise          = ""
++    dirty = ""
+ 
+     -- Abbreviate a commit hash while keeping it unambiguous
+     abbrev = take 7
