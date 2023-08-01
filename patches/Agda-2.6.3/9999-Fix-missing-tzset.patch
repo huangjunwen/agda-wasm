@@ -16,7 +16,5 @@ new file mode 100644
 index 0000000..f796ca6
 --- /dev/null
 +++ b/src/fixes/tzset.c
-@@ -0,0 +1,3 @@
-+// tzset not found when linking with libHStime-1.12.2, maybe fixed in
-+// https://github.com/haskell/time/commit/2b3026fff50417bb57d909b2fa87d298c091cc1c
+@@ -0,0 +1,1 @@
 +int tzset() { return 0; }
