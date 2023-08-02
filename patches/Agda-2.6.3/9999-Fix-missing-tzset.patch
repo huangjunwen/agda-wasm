@@ -1,5 +1,5 @@
 diff --git a/Agda.cabal b/Agda.cabal
-index 7738c18..3143286 100644
+index e9afcfb..3c67fef 100644
 --- a/Agda.cabal
 +++ b/Agda.cabal
 @@ -183,6 +183,8 @@ custom-setup
@@ -13,8 +13,8 @@ index 7738c18..3143286 100644
      -- `build-tools` field can not be modified in Hackage.
 diff --git a/src/fixes/tzset.c b/src/fixes/tzset.c
 new file mode 100644
-index 0000000..f796ca6
+index 0000000..623539c
 --- /dev/null
 +++ b/src/fixes/tzset.c
-@@ -0,0 +1,1 @@
+@@ -0,0 +1 @@
 +int tzset() { return 0; }

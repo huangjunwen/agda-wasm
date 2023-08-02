@@ -1,13 +1,21 @@
 diff --git a/src/full/Agda/Interaction/Library.hs b/src/full/Agda/Interaction/Library.hs
-index cc18dfd..b133772 100644
+index cc18dfd..311b224 100644
 --- a/src/full/Agda/Interaction/Library.hs
 +++ b/src/full/Agda/Interaction/Library.hs
-@@ -126,7 +126,7 @@ mkLibM libs m = do
+@@ -1,3 +1,4 @@
++{-# LANGUAGE CPP #-}
+ {-# LANGUAGE OverloadedLists #-}
+
+ -- | Library management.
+@@ -126,7 +127,11 @@ mkLibM libs m = do
  getAgdaAppDir :: IO FilePath
  getAgdaAppDir = do
    -- System-specific command to build the path to ~/.agda (Unix) or %APPDATA%\agda (Win)
--  let agdaDir = getAppUserDataDirectory "agda"
++#ifdef ARCH_WASM32
 +  let agdaDir = return "/root/.agda"
++#else
+   let agdaDir = getAppUserDataDirectory "agda"
++#endif
    -- The default can be overwritten by setting the AGDA_DIR environment variable
    caseMaybeM (lookupEnv "AGDA_DIR") agdaDir $ \ dir ->
        ifM (doesDirectoryExist dir) (canonicalizePath dir) $ do
