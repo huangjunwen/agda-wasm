@@ -1,0 +1,18 @@
+diff --git a/Agda.cabal b/Agda.cabal
+index 5ccebfa..e9afcfb 100644
+--- a/Agda.cabal
++++ b/Agda.cabal
+@@ -829,8 +829,11 @@ executable agda
+   -- The threaded RTS by default starts a major GC after a program has
+   -- been idle for 0.3 s. This feature turned out to be annoying, so
+   -- the idle GC is now by default turned off (-I0).
+-  ghc-options: -threaded -rtsopts
+-               "-with-rtsopts=-M3.5G -I0"
++  if arch(wasm32)
++    ghc-options: -rtsopts "-with-rtsopts=-M3.5G -I0"
++  else
++    ghc-options: -threaded -rtsopts
++                 "-with-rtsopts=-M3.5G -I0"
+ 
+ executable agda-mode
+   hs-source-dirs:   src/agda-mode

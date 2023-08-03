@@ -1,0 +1,14 @@
+diff --git a/Agda.cabal b/Agda.cabal
+index 3f424d3..5ccebfa 100644
+--- a/Agda.cabal
++++ b/Agda.cabal
+@@ -210,6 +210,9 @@ library
+   if os(windows) && impl(ghc == 8.6.3)
+     buildable: False
+ 
++  if arch(wasm32)
++    cpp-options:    -DARCH_WASM32
++
+   build-depends:  aeson >= 1.1.2.0 && < 2.3
+                 , array >= 0.5.1.1 && < 0.6
+                 , async >= 2.2 && < 2.3
