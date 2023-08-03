@@ -1,40 +1,36 @@
 diff --git a/src/full/Agda/VersionCommit.hs b/src/full/Agda/VersionCommit.hs
-index 2753f8e..3e60990 100644
+index 2753f8e..d98f1ca 100644
 --- a/src/full/Agda/VersionCommit.hs
 +++ b/src/full/Agda/VersionCommit.hs
-@@ -1,16 +1,27 @@
+@@ -1,9 +1,10 @@
  {-# LANGUAGE CPP             #-}
-+
 +#ifndef ARCH_WASM32
  {-# LANGUAGE TemplateHaskell #-}
-
+-
  #if __GLASGOW_HASKELL__ >= 900
  {-# OPTIONS_GHC -Wno-overlapping-patterns #-}
  #endif
-
--module Agda.VersionCommit where
 +#endif
 
--import Development.GitRev
-+module Agda.VersionCommit where
+ module Agda.VersionCommit where
+
+@@ -11,6 +12,8 @@ import Development.GitRev
 
  import Agda.Version
 
-+#ifdef ARCH_WASM32
-+
-+versionWithCommitInfo :: String
-+versionWithCommitInfo = version
-+
-+#else
-+
-+import Development.GitRev
++#ifndef ARCH_WASM32
 +
  versionWithCommitInfo :: String
  versionWithCommitInfo = version ++ maybe "" ("-" ++) commitInfo
 
-@@ -28,3 +39,5 @@ commitInfo
+@@ -28,3 +31,10 @@ commitInfo
 
      -- Abbreviate a commit hash while keeping it unambiguous
      abbrev = take 7
++
++#else
++
++versionWithCommitInfo :: String
++versionWithCommitInfo = version
 +
 +#endif
