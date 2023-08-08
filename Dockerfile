@@ -41,6 +41,9 @@ RUN apt-get install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp
 # Will be used to generate lexer and parser for agda. Location: $HOME/.local/bin
 RUN source /usr/local/ghc/.ghcup/env && cabal update && cabal install alex-3.4.0.0 happy-1.20.1.1
 
+# Also install wasmer
+RUN curl https://get.wasmer.io -sSfL | sh
+
 # Build
 COPY build /root/build
 COPY patches /root/patches

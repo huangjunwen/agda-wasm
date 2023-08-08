@@ -14,7 +14,7 @@ Copy lib to avoid
 
 ```
 $ mkdir -p /usr/local/ghc-wasm/.cabal/share/wasm32-wasi-ghc-9.6.2.20230523/Agda-2.6.3
-$ cp -r /root/agda/src/data/lib/ /usr/local/ghc-wasm/.cabal/share/wasm32-wasi-ghc-9.6.2.20230523/Agda-2.6.3
+$ cp -r /root/build/2.6.3/Agda-2.6.3/src/data/lib/ /usr/local/ghc-wasm/.cabal/share/wasm32-wasi-ghc-9.6.2.20230523/Agda-2.6.3
 ```
 
 Example cmd:
