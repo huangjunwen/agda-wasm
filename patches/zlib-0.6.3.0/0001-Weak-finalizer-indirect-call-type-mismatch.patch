@@ -1,0 +1,76 @@
+diff --git a/Codec/Compression/Zlib/Stream.hsc b/Codec/Compression/Zlib/Stream.hsc
+index c01b280..c21fc6f 100644
+--- a/Codec/Compression/Zlib/Stream.hsc
++++ b/Codec/Compression/Zlib/Stream.hsc
+@@ -1070,7 +1070,7 @@ c_deflateInit2 z a b c d e =
+ foreign import ccall SAFTY "zlib.h inflate"
+   c_inflate :: StreamState -> CInt -> IO CInt
+ 
+-foreign import ccall unsafe "zlib.h &inflateEnd"
++foreign import ccall unsafe "zlib.h &inflateEndNoRet"
+   c_inflateEnd :: FinalizerPtr StreamState
+ 
+ foreign import ccall unsafe "zlib.h inflateReset"
+@@ -1091,7 +1091,7 @@ foreign import ccall unsafe "zlib.h inflateSetDictionary"
+ foreign import ccall SAFTY "zlib.h deflate"
+   c_deflate :: StreamState -> CInt -> IO CInt
+ 
+-foreign import ccall unsafe "zlib.h &deflateEnd"
++foreign import ccall unsafe "zlib.h &deflateEndNoRet"
+   c_deflateEnd :: FinalizerPtr StreamState
+ 
+ foreign import ccall unsafe "zlib.h zlibVersion"
+diff --git a/cbits/deflate.c b/cbits/deflate.c
+index 799fb93..500b617 100644
+--- a/cbits/deflate.c
++++ b/cbits/deflate.c
+@@ -1137,6 +1137,12 @@ int ZEXPORT deflateEnd (strm)
+     return status == BUSY_STATE ? Z_DATA_ERROR : Z_OK;
+ }
+ 
++void ZEXPORT deflateEndNoRet (strm)
++    z_streamp strm;
++{
++    deflateEnd(strm);
++}
++
+ /* =========================================================================
+  * Copy the source state to the destination state.
+  * To simplify the source, this is not supported for 16-bit MSDOS (which
+diff --git a/cbits/inflate.c b/cbits/inflate.c
+index 7be8c63..a58a753 100644
+--- a/cbits/inflate.c
++++ b/cbits/inflate.c
+@@ -1312,6 +1312,12 @@ z_streamp strm;
+     return Z_OK;
+ }
+ 
++void ZEXPORT inflateEndNoRet(strm)
++z_streamp strm;
++{
++    inflateEnd(strm);
++}
++
+ int ZEXPORT inflateGetDictionary(strm, dictionary, dictLength)
+ z_streamp strm;
+ Bytef *dictionary;
+diff --git a/cbits/zlib.h b/cbits/zlib.h
+index 4a98e38..14da172 100644
+--- a/cbits/zlib.h
++++ b/cbits/zlib.h
+@@ -361,6 +361,7 @@ ZEXTERN int ZEXPORT deflate OF((z_streamp strm, int flush));
+ 
+ 
+ ZEXTERN int ZEXPORT deflateEnd OF((z_streamp strm));
++ZEXTERN void ZEXPORT deflateEndNoRet OF((z_streamp strm));
+ /*
+      All dynamically allocated data structures for this stream are freed.
+    This function discards any unprocessed input and does not flush any pending
+@@ -518,6 +519,7 @@ ZEXTERN int ZEXPORT inflate OF((z_streamp strm, int flush));
+ 
+ 
+ ZEXTERN int ZEXPORT inflateEnd OF((z_streamp strm));
++ZEXTERN void ZEXPORT inflateEndNoRet OF((z_streamp strm));
+ /*
+      All dynamically allocated data structures for this stream are freed.
+    This function discards any unprocessed input and does not flush any pending

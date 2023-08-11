@@ -20,5 +20,7 @@ patch_src () {
 
 patch_src Agda-2.6.3
 patch_src vector-hashtables-0.1.1.3
+patch_src zlib-0.6.3.0
 
-wasm32-wasi-cabal build all --constraint='zlib +bundled-c-zlib' --disable-optimization --ghc-options=-debug
+# wasm32-wasi-cabal build all --constraint='zlib +bundled-c-zlib' --disable-optimization --ghc-options=-debug
+wasm32-wasi-cabal build all --constraint='zlib +bundled-c-zlib'
